@@ -45,3 +45,8 @@ export default function Home() {
     </main>
   );
 }
+<img
+  src="/logo.png"
+  alt="ThinkFridge logo"
+  className="w-28 h-auto mx-auto mb-4"
+/>
