@@ -3,6 +3,11 @@ export default function Home() {
     <main className="min-h-screen bg-white text-gray-900 p-8 space-y-16">
       {/* Hero Section */}
       <section className="text-center space-y-4">
+        <img
+  src="/logo.png"
+  alt="ThinkFridge logo"
+  className="w-28 h-auto mx-auto mb-4"
+/>
         <h1 className="text-5xl font-bold">ThinkFridge</h1>
         <p className="text-xl max-w-2xl mx-auto">
           The fridge that learns what you love. Smart vending powered by AI, freshness, and customer feedback.
@@ -45,8 +50,3 @@ export default function Home() {
     </main>
   );
 }
-<img
-  src="/logo.png"
-  alt="ThinkFridge logo"
-  className="w-28 h-auto mx-auto mb-4"
-/>
