@@ -1,6 +1,15 @@
+import Image from 'next/image';
+
 export default function AdminPage() {
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center bg-gray-100">
+    <div className="min-h-screen flex flex-col justify-center items-center bg-gray-100 px-4">
+      <Image
+        src="/logo.png"
+        alt="ThinkFridge Logo"
+        width={120}
+        height={120}
+        className="mb-4"
+      />
       <h1 className="text-4xl font-bold mb-4">Admin Access</h1>
       <p className="text-lg text-gray-700 mb-6">Login system coming soon.</p>
       <form className="bg-white p-6 rounded shadow-md w-80">
