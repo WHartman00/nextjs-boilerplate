@@ -8,6 +8,9 @@
     "start": "next start"
   },
   "dependencies": {
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
     "nodemailer": "^6.9.3"
   }
 }
