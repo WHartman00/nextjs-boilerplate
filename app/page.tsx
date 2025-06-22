@@ -5,6 +5,8 @@ export default function Home() {
     <>
       <Head>
         <title>Home | ThinkFridge</title>
+        <meta name="description" content="The fridge that learns what you love." />
+        <link rel="icon" href="/favicon.png" />
       </Head>
 
       <main className="min-h-screen bg-white text-gray-900 p-8 space-y-20">
