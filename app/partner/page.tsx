@@ -3,8 +3,7 @@
 import React, { useState } from 'react';
 
 export default function PartnerWithUs() {
-  const [submitted, setSubmitted] = useState(false);
-  const [error, setError] = useState(false);
+  const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -24,10 +23,11 @@ export default function PartnerWithUs() {
 
     const result = await res.json();
     if (result.success) {
-      setSubmitted(true);
+      setStatus('success');
       form.reset();
+      setTimeout(() => setStatus('idle'), 5000); // auto-hide after 5s
     } else {
-      setError(true);
+      setStatus('error');
     }
   };
 
@@ -48,69 +48,76 @@ export default function PartnerWithUs() {
             'No upfront cost for hosts',
             'Fresh, healthy meals daily',
             'Smart data to personalize menu',
-            'Secure, contactless checkout',
+            'Secure, contactless checkout'
           ].map((benefit, index) => (
-            <div key={index} className="bg-blue-50 p-4 rounded-xl shadow-md text-base md:text-lg">
+            <div
+              key={index}
+              className="bg-blue-50 p-4 rounded-xl shadow-md text-base md:text-lg"
+            >
               ✅ {benefit}
             </div>
           ))}
         </div>
 
-        {submitted ? (
-          <div className="bg-green-100 text-green-800 p-6 rounded-xl shadow-md text-center text-lg font-semibold">
-            ✅ Thank you for your inquiry! We’ll be in touch shortly.
-          </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="bg-gray-100 p-6 rounded-xl shadow-md space-y-4">
-            <h2 className="text-2xl font-semibold">Partner Inquiry Form</h2>
-            <div className="grid md:grid-cols-2 gap-4">
-              <input
-                name="fullName"
-                type="text"
-                placeholder="Full Name"
-                className="p-3 rounded border w-full"
-                required
-              />
-              <input
-                name="email"
-                type="email"
-                placeholder="Email Address"
-                className="p-3 rounded border w-full"
-                required
-              />
-              <input
-                name="organization"
-                type="text"
-                placeholder="Business or Organization"
-                className="p-3 rounded border w-full"
-              />
-              <select name="locationType" className="p-3 rounded border w-full">
-                <option>Type of Location</option>
-                <option>Office</option>
-                <option>Gym</option>
-                <option>Campus</option>
-                <option>Retail</option>
-                <option>Other</option>
-              </select>
+        <form onSubmit={handleSubmit} className="bg-gray-100 p-6 rounded-xl shadow-md space-y-4">
+          <h2 className="text-2xl font-semibold">Partner Inquiry Form</h2>
+
+          {status === 'success' && (
+            <div className="bg-green-100 text-green-800 border border-green-300 px-4 py-3 rounded text-sm">
+              ✅ Thank you! Your message has been sent.
             </div>
-            <textarea
-              name="message"
-              placeholder="Tell us about your space or ask a question..."
-              className="w-full p-3 rounded border h-28"
+          )}
+
+          {status === 'error' && (
+            <div className="bg-red-100 text-red-800 border border-red-300 px-4 py-3 rounded text-sm">
+              ❌ Something went wrong. Please try again later.
+            </div>
+          )}
+
+          <div className="grid md:grid-cols-2 gap-4">
+            <input
+              name="fullName"
+              type="text"
+              placeholder="Full Name"
+              className="p-3 rounded border w-full"
+              required
             />
-            <button
-              type="submit"
-              className="bg-blue-600 text-white font-semibold px-6 py-3 rounded hover:bg-blue-700"
-            >
-              Submit Inquiry
-            </button>
-            {error && (
-              <p className="text-red-600 text-sm font-medium mt-2">
-                ❌ Something went wrong. Please try again later.
-              </p>
-            )}
-          </form>
-        )}
+            <input
+              name="email"
+              type="email"
+              placeholder="Email Address"
+              className="p-3 rounded border w-full"
+              required
+            />
+            <input
+              name="organization"
+              type="text"
+              placeholder="Business or Organization"
+              className="p-3 rounded border w-full"
+            />
+            <select name="locationType" className="p-3 rounded border w-full">
+              <option>Type of Location</option>
+              <option>Office</option>
+              <option>Gym</option>
+              <option>Campus</option>
+              <option>Retail</option>
+              <option>Other</option>
+            </select>
+          </div>
+
+          <textarea
+            name="message"
+            placeholder="Tell us about your space or ask a question..."
+            className="w-full p-3 rounded border h-28"
+          />
+
+          <button
+            type="submit"
+            className="bg-blue-600 text-white font-semibold px-6 py-3 rounded hover:bg-blue-700"
+          >
+            Submit Inquiry
+          </button>
+        </form>
       </div>
     </div>
   );
