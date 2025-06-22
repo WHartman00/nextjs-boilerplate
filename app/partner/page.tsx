@@ -2,12 +2,6 @@
 
 import React, { useState } from 'react';
 
-// ✅ This controls the browser tab title
-export const metadata = {
-  title: 'Partner With Us',
-  description: 'Become a host location for ThinkFridge — smart vending powered by AI.',
-};
-
 export default function PartnerWithUs() {
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
