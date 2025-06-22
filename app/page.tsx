@@ -21,23 +21,35 @@ export default function Home() {
       </section>
 
       {/* How It Works */}
-      <section className="max-w-4xl mx-auto">
-        <h2 className="text-3xl font-semibold mb-6 text-center">How It Works</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div>
-            <h3 className="text-xl font-bold mb-2">1. Tap to Unlock</h3>
-            <p>Scan your card or phone to unlock a smart fridge near you.</p>
-          </div>
-          <div>
-            <h3 className="text-xl font-bold mb-2">2. Grab & Go</h3>
-            <p>Pick your favorite item. Everything is tracked with smart sensors.</p>
-          </div>
-          <div>
-            <h3 className="text-xl font-bold mb-2">3. Get Charged Automatically</h3>
-            <p>Walk away — your card is billed automatically. Rate your meal in the app.</p>
-          </div>
-        </div>
-      </section>
+<section className="max-w-5xl mx-auto text-center">
+  <h2 className="text-4xl font-bold mb-4">How It Works</h2>
+  <p className="text-lg md:text-xl mb-8 text-gray-600">
+    ThinkFridge is frictionless, intuitive, and smart. Grab what you love — no checkout needed.
+  </p>
+
+  <div className="flex justify-center mb-8">
+    <img
+      src="/how-it-works.png"
+      alt="Tap. Take. Transact."
+      className="rounded-xl shadow-xl w-full max-w-md"
+    />
+  </div>
+
+  <div className="grid md:grid-cols-3 gap-6 text-lg text-left px-4">
+    <div>
+      <h3 className="text-blue-600 font-semibold text-xl mb-1">1. Tap</h3>
+      <p>Tap your phone or card to unlock the fridge instantly.</p>
+    </div>
+    <div>
+      <h3 className="text-blue-600 font-semibold text-xl mb-1">2. Take</h3>
+      <p>Grab a fresh meal, drink, or snack — no staff required.</p>
+    </div>
+    <div>
+      <h3 className="text-blue-600 font-semibold text-xl mb-1">3. Transact</h3>
+      <p>Your account is charged automatically, and your taste is remembered.</p>
+    </div>
+  </div>
+</section>
 
       {/* About Section */}
       <section className="max-w-3xl mx-auto text-center">
