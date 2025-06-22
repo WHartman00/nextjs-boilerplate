@@ -3,15 +3,18 @@ export default function Home() {
     <main className="min-h-screen bg-white text-gray-900 p-8 space-y-20">
       {/* Hero Section */}
       <section className="text-center space-y-6">
+        {/* 🧠 THIS is the logo */}
         <img
           src="/logo.png"
           alt="ThinkFridge Logo"
           className="mx-auto w-28 h-auto"
         />
+
         <h1 className="text-5xl font-bold">ThinkFridge</h1>
         <p className="text-xl max-w-2xl mx-auto">
           The fridge that learns what you love. Smart vending powered by AI, freshness, and customer feedback.
         </p>
+
         <a
           href="#"
           className="mt-4 inline-block bg-blue-600 text-white px-6 py-3 rounded-full text-lg shadow hover:bg-blue-700"
@@ -20,13 +23,14 @@ export default function Home() {
         </a>
       </section>
 
-      {/* How It Works */}
+      {/* How It Works Section */}
       <section className="max-w-5xl mx-auto text-center">
         <h2 className="text-4xl font-bold mb-4">How It Works</h2>
         <p className="text-lg md:text-xl mb-8 text-gray-600">
           ThinkFridge is frictionless, intuitive, and smart. Grab what you love — no checkout needed.
         </p>
 
+        {/* 👇 THIS is your illustration now placed below */}
         <div className="flex justify-center mb-10">
           <img
             src="/tap-take-transact.png"
