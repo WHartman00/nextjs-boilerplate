@@ -20,15 +20,15 @@ export const metadata: Metadata = {
   },
   description: "The fridge that learns what you love.",
 };
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head>
-        {/* ✅ Favicon (uses public/logo.png) */}
-        <link rel="icon" href="/logo.png" type="image/png" />
+        <link rel="icon" href="/favicon.png" type="image/png" />
+        <title>ThinkFridge</title> {/* Optional fallback */}
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} bg-white text-gray-900`}>
+      <body className="bg-white text-gray-900">
+        ...
         <header className="bg-white shadow-md p-4">
           <nav className="max-w-5xl mx-auto flex justify-between items-center">
             <div className="text-xl font-bold">
