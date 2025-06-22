@@ -2,6 +2,11 @@
 
 import React, { useState } from 'react';
 
+// ✅ Add this at the top level (outside component)
+export const metadata = {
+  title: 'Partner With Us',
+};
+
 export default function PartnerWithUs() {
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
 
@@ -25,19 +30,16 @@ export default function PartnerWithUs() {
     if (result.success) {
       setStatus('success');
       form.reset();
-      setTimeout(() => setStatus('idle'), 5000); // hide after 5s
+      setTimeout(() => setStatus('idle'), 5000);
     } else {
       setStatus('error');
-      setTimeout(() => setStatus('idle'), 5000);
     }
   };
 
   return (
     <div className="min-h-screen bg-white text-gray-900 p-6 md:p-12">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl md:text-5xl font-bold mb-4 text-center">
-          Host a ThinkFridge at Your Location
-        </h1>
+        <h1 className="text-4xl md:text-5xl font-bold mb-4 text-center">Host a ThinkFridge at Your Location</h1>
         <p className="text-lg md:text-xl text-center mb-10">
           Boost satisfaction and convenience with a smart, self-service fridge tailored to your space.
         </p>
@@ -49,7 +51,7 @@ export default function PartnerWithUs() {
             'No upfront cost for hosts',
             'Fresh, healthy meals daily',
             'Smart data to personalize menu',
-            'Secure, contactless checkout',
+            'Secure, contactless checkout'
           ].map((benefit, index) => (
             <div
               key={index}
@@ -60,27 +62,18 @@ export default function PartnerWithUs() {
           ))}
         </div>
 
-        <form
-          onSubmit={handleSubmit}
-          className="bg-gray-100 p-6 rounded-xl shadow-md space-y-4"
-        >
+        <form onSubmit={handleSubmit} className="bg-gray-100 p-6 rounded-xl shadow-md space-y-4">
           <h2 className="text-2xl font-semibold">Partner Inquiry Form</h2>
 
           {status === 'success' && (
-            <div className="flex items-center gap-3 p-4 rounded-lg border border-green-300 bg-green-50 text-green-800 shadow animate-fade-in">
-              <span className="text-xl">✅</span>
-              <span className="font-medium">
-                Thank you! Your inquiry was submitted successfully.
-              </span>
+            <div className="bg-green-100 text-green-800 border border-green-300 px-4 py-3 rounded text-sm">
+              ✅ Thank you! Your message has been sent.
             </div>
           )}
 
           {status === 'error' && (
-            <div className="flex items-center gap-3 p-4 rounded-lg border border-red-300 bg-red-50 text-red-800 shadow animate-fade-in">
-              <span className="text-xl">❌</span>
-              <span className="font-medium">
-                Oops! Something went wrong. Please try again later.
-              </span>
+            <div className="bg-red-100 text-red-800 border border-red-300 px-4 py-3 rounded text-sm">
+              ❌ Something went wrong. Please try again later.
             </div>
           )}
 
