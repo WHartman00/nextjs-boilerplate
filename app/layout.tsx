@@ -19,6 +19,9 @@ export const metadata: Metadata = {
     template: "%s | ThinkFridge",
   },
   description: "The fridge that learns what you love.",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({
@@ -28,9 +31,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-<head>
-  <link rel="icon" href="/favicon.ico" />
-</head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} bg-white text-gray-900`}
       >
