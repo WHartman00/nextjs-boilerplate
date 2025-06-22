@@ -25,9 +25,10 @@ export default function PartnerWithUs() {
     if (result.success) {
       setStatus('success');
       form.reset();
-      setTimeout(() => setStatus('idle'), 5000); // auto-hide after 5s
+      setTimeout(() => setStatus('idle'), 5000); // hide after 5s
     } else {
       setStatus('error');
+      setTimeout(() => setStatus('idle'), 5000);
     }
   };
 
@@ -48,7 +49,7 @@ export default function PartnerWithUs() {
             'No upfront cost for hosts',
             'Fresh, healthy meals daily',
             'Smart data to personalize menu',
-            'Secure, contactless checkout'
+            'Secure, contactless checkout',
           ].map((benefit, index) => (
             <div
               key={index}
@@ -59,18 +60,27 @@ export default function PartnerWithUs() {
           ))}
         </div>
 
-        <form onSubmit={handleSubmit} className="bg-gray-100 p-6 rounded-xl shadow-md space-y-4">
+        <form
+          onSubmit={handleSubmit}
+          className="bg-gray-100 p-6 rounded-xl shadow-md space-y-4"
+        >
           <h2 className="text-2xl font-semibold">Partner Inquiry Form</h2>
 
           {status === 'success' && (
-            <div className="bg-green-100 text-green-800 border border-green-300 px-4 py-3 rounded text-sm">
-              ✅ Thank you! Your message has been sent.
+            <div className="flex items-center gap-3 p-4 rounded-lg border border-green-300 bg-green-50 text-green-800 shadow animate-fade-in">
+              <span className="text-xl">✅</span>
+              <span className="font-medium">
+                Thank you! Your inquiry was submitted successfully.
+              </span>
             </div>
           )}
 
           {status === 'error' && (
-            <div className="bg-red-100 text-red-800 border border-red-300 px-4 py-3 rounded text-sm">
-              ❌ Something went wrong. Please try again later.
+            <div className="flex items-center gap-3 p-4 rounded-lg border border-red-300 bg-red-50 text-red-800 shadow animate-fade-in">
+              <span className="text-xl">❌</span>
+              <span className="font-medium">
+                Oops! Something went wrong. Please try again later.
+              </span>
             </div>
           )}
 
