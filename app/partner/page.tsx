@@ -4,9 +4,13 @@ import React, { useState } from 'react';
 
 export default function PartnerWithUs() {
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [isSubmitting, setIsSubmitting] = useState(false); // prevents double submission
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (isSubmitting) return;
+    setIsSubmitting(true);
 
     const form = e.target as HTMLFormElement;
     const data = {
@@ -29,6 +33,8 @@ export default function PartnerWithUs() {
     } else {
       setStatus('error');
     }
+
+    setIsSubmitting(false);
   };
 
   return (
@@ -41,6 +47,7 @@ export default function PartnerWithUs() {
           Turn your space into a smart retail experience — and earn passive income with zero hassle.
         </p>
 
+        {/* How It Works */}
         <section className="mb-12">
           <h2 className="text-2xl font-semibold mb-4">How It Works</h2>
           <ul className="list-disc list-inside text-gray-700 space-y-2">
@@ -50,11 +57,12 @@ export default function PartnerWithUs() {
           </ul>
         </section>
 
+        {/* Revenue Sharing */}
         <section className="mb-12">
           <h2 className="text-2xl font-semibold mb-4">Earn Without the Effort</h2>
           <p className="text-gray-700 mb-4">
-            As a location partner, you receive a percentage of every sale — without lifting a finger. We handle installation,
-            restocking, inventory, and maintenance.
+            As a location partner, you receive a percentage of every sale — without lifting a finger.
+            We handle installation, restocking, inventory, and maintenance.
           </p>
           <ul className="list-disc list-inside text-gray-700 space-y-1">
             <li>Earn revenue from every product sold</li>
@@ -64,6 +72,7 @@ export default function PartnerWithUs() {
           </ul>
         </section>
 
+        {/* Ideal Locations */}
         <section className="mb-12">
           <h2 className="text-2xl font-semibold mb-4">Great Locations for ThinkFridge</h2>
           <ul className="list-disc list-inside text-gray-700 space-y-1">
@@ -75,6 +84,7 @@ export default function PartnerWithUs() {
           </ul>
         </section>
 
+        {/* Call to Action */}
         <p className="text-lg font-semibold text-center mt-10">
           Ready to unlock new revenue for your space?
         </p>
@@ -82,6 +92,7 @@ export default function PartnerWithUs() {
           Fill out the form and our team will be in touch within 48 hours.
         </p>
 
+        {/* Inquiry Form */}
         <form onSubmit={handleSubmit} className="bg-gray-100 p-6 rounded-xl shadow-md space-y-4">
           <h2 className="text-2xl font-semibold">Partner Inquiry Form</h2>
 
@@ -136,9 +147,10 @@ export default function PartnerWithUs() {
 
           <button
             type="submit"
-            className="bg-blue-600 text-white font-semibold px-6 py-3 rounded hover:bg-blue-700"
+            disabled={isSubmitting}
+            className="bg-blue-600 text-white font-semibold px-6 py-3 rounded hover:bg-blue-700 disabled:opacity-50"
           >
-            Submit Inquiry
+            {isSubmitting ? 'Submitting...' : 'Submit Inquiry'}
           </button>
         </form>
       </div>
