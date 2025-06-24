@@ -23,12 +23,12 @@ export default function Home() {
             The fridge that learns what you love. Smart vending powered by AI, freshness, and customer feedback.
           </p>
 
-          <a
-            href="#"
-            className="mt-4 inline-block bg-blue-600 text-white px-6 py-3 rounded-full text-lg shadow hover:bg-blue-700"
-          >
-            Join the Waitlist
-          </a>
+       <a
+  href="/partner"
+  className="mt-4 inline-block bg-blue-600 text-white px-6 py-3 rounded-full text-lg shadow hover:bg-blue-700"
+>
+  Partner With Us
+</a>
         </section>
 
         {/* How It Works Section */}
