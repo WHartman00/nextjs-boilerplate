@@ -35,29 +35,52 @@ export default function PartnerWithUs() {
     <div className="min-h-screen bg-white text-gray-900 p-6 md:p-12">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-4xl md:text-5xl font-bold mb-4 text-center">
-          Host a ThinkFridge at Your Location
+          Partner With ThinkFridge
         </h1>
         <p className="text-lg md:text-xl text-center mb-10">
-          Boost satisfaction and convenience with a smart, self-service fridge tailored to your space.
+          Turn your space into a smart retail experience — and earn passive income with zero hassle.
         </p>
 
-        <div className="grid md:grid-cols-2 gap-6 mb-12">
-          {[
-            'Increase employee satisfaction',
-            '24/7 food access without staff',
-            'No upfront cost for hosts',
-            'Fresh, healthy meals daily',
-            'Smart data to personalize menu',
-            'Secure, contactless checkout',
-          ].map((benefit, index) => (
-            <div
-              key={index}
-              className="bg-blue-50 p-4 rounded-xl shadow-md text-base md:text-lg"
-            >
-              ✅ {benefit}
-            </div>
-          ))}
-        </div>
+        <section className="mb-12">
+          <h2 className="text-2xl font-semibold mb-4">How It Works</h2>
+          <ul className="list-disc list-inside text-gray-700 space-y-2">
+            <li>We install a smart, refrigerated ThinkFridge at your location.</li>
+            <li>Customers tap, take what they want, and walk away — no checkout needed.</li>
+            <li>ThinkFridge tracks every sale and restocks automatically.</li>
+          </ul>
+        </section>
+
+        <section className="mb-12">
+          <h2 className="text-2xl font-semibold mb-4">Earn Without the Effort</h2>
+          <p className="text-gray-700 mb-4">
+            As a location partner, you receive a percentage of every sale — without lifting a finger. We handle installation,
+            restocking, inventory, and maintenance.
+          </p>
+          <ul className="list-disc list-inside text-gray-700 space-y-1">
+            <li>Earn revenue from every product sold</li>
+            <li>Zero overhead or staffing required</li>
+            <li>Fully managed by the ThinkFridge team</li>
+            <li>Typical revenue share: <strong>10–15% of gross sales</strong></li>
+          </ul>
+        </section>
+
+        <section className="mb-12">
+          <h2 className="text-2xl font-semibold mb-4">Great Locations for ThinkFridge</h2>
+          <ul className="list-disc list-inside text-gray-700 space-y-1">
+            <li>Gyms and fitness centers</li>
+            <li>Office buildings</li>
+            <li>College campuses</li>
+            <li>Co-working spaces</li>
+            <li>Industrial parks and warehouses</li>
+          </ul>
+        </section>
+
+        <p className="text-lg font-semibold text-center mt-10">
+          Ready to unlock new revenue for your space?
+        </p>
+        <p className="text-gray-600 text-center mb-10">
+          Fill out the form and our team will be in touch within 48 hours.
+        </p>
 
         <form onSubmit={handleSubmit} className="bg-gray-100 p-6 rounded-xl shadow-md space-y-4">
           <h2 className="text-2xl font-semibold">Partner Inquiry Form</h2>
