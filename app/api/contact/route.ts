@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
   try {
     // Email to YOU (ThinkFridge team)
     await transporter.sendMail({
-      from: `"ThinkFridge Inquiry" <${process.env.EMAIL_USER}>`,
+     from: "ThinkFridge" <no-reply@thinkfridge.co>,
       to: process.env.EMAIL_TO, // Update in Vercel to whartman@thinkfridge.co
       subject: `New Inquiry from ${name}`,
       text: `
