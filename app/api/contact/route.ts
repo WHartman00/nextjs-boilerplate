@@ -1,48 +1,47 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
-export async function POST(req: NextRequest) {
-  const { name, email, message } = await req.json();
+export async function POST(request: Request) {
+  const { name, email, business, location_type, message } = await request.json();
 
+  // Configure transporter using a service (e.g., Gmail)
   const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    service: process.env.EMAIL_SERVICE || 'gmail', // Use env var or default to gmail
     auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
+      user: process.env.EMAIL_USER, // e.g., your-email@gmail.com
+      pass: process.env.EMAIL_PASS, // e.g., app-specific password
     },
+  } as nodemailer.TransportOptions); // Type assertion to satisfy TypeScript
+
+  // Email to YOU (ThinkFridge team)
+  await transporter.sendMail({
+    from: `"ThinkFridge Inquiry" <${process.env.EMAIL_USER}>`,
+    to: process.env.EMAIL_TO,
+    subject: `New Inquiry from ${name}`,
+    text: `
+      Name: ${name}
+      Email: ${email}
+      Business/Organization: ${business}
+      Type of Location: ${location_type}
+      Message: ${message}
+    `,
+    html: `
+      <h3>New Inquiry from ${name}</h3>
+      <p><strong>Email:</strong> ${email}</p>
+      <p><strong>Business/Organization:</strong> ${business}</p>
+      <p><strong>Type of Location:</strong> ${location_type}</p>
+      <p><strong>Message:</strong> ${message}</p>
+    `,
   });
 
-  try {
-    // Email to YOU (ThinkFridge team)
-    await transporter.sendMail({
-      from: `"ThinkFridge Inquiry" <${process.env.EMAIL_USER}>`,
-      to: process.env.EMAIL_TO,
-      subject: `New Inquiry from ${name}`,
-      text: `
-        Name: ${name}
-        Email: ${email}
-        Message: ${message}
-      `,
-    });
+  return NextResponse.json({ message: 'Email sent successfully' }, { status: 200 });
+}
 
-    // Auto-confirmation email to submitter
-    await transporter.sendMail({
-      from: `"ThinkFridge" <${process.env.EMAIL_USER}>`,
-      to: email,
-      subject: `Thanks for your interest in ThinkFridge!`,
-      text: `Hi ${name},
-
-Thanks for reaching out to ThinkFridge! We've received your inquiry and will get back to you shortly.
-
-If you have any urgent questions, feel free to reply to this email.
-
-Best,  
-The ThinkFridge Team`,
-    });
-
-    return NextResponse.json({ success: true });
-  } catch (error) {
-    console.error('Email failed:', error);
-    return NextResponse.json({ success: false, error }, { status: 500 });
-  }
+// Type definition for the request body
+interface InquiryData {
+  name: string;
+  email: string;
+  business: string;
+  location_type: string;
+  message: string;
 }
