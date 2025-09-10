@@ -1,44 +1,49 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
-export async function POST(req: NextRequest) {
-  const { name, email, message } = await req.json();
+export async function POST(request: Request) {
+  const { name, email, business, location_type, message } = await request.json();
+
+  // Configure transporter (ensure env vars are set)
   const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    host: process.env.EMAIL_HOST,
+    port: process.env.EMAIL_PORT,
+    secure: process.env.EMAIL_SECURE === 'true',
     auth: {
       user: process.env.EMAIL_USER,
       pass: process.env.EMAIL_PASS,
     },
   });
-  try {
-   // Email to YOU (ThinkFridge team)
-await transporter.sendMail({
-  from: `"ThinkFridge Inquiry" <${process.env.EMAIL_USER}>`,
-  to: process.env.EMAIL_TO,
-  subject: `New Inquiry from ${name}`,
-  text: `
-    Name: ${name}
-    Email: ${email}
-    Business/Organization: ${business}
-    Type of Location: ${location_type}
-    Message: ${message}
-  `,
-    });
-    // Auto-confirmation email to submitter
-    await transporter.sendMail({
-      from: `"ThinkFridge" <no-reply@thinkfridge.co>`,
-      replyTo: 'whartman@thinkfridge.co',
-      to: email,
-      subject: `Thanks for your interest in ThinkFridge!`,
-      text: `Hi ${name},
-Thanks for reaching out to ThinkFridge! We've received your inquiry and will get back to you shortly.
-If you have any urgent questions, contact whartman@thinkfridge.co (this is a no-reply address).
-Best,
-The ThinkFridge Team`,
-    });
-    return NextResponse.json({ success: true });
-  } catch (error) {
-    console.error('Email failed:', error);
-    return NextResponse.json({ success: false, error }, { status: 500 });
-  }
+
+  // Email to YOU (ThinkFridge team)
+  await transporter.sendMail({
+    from: `"ThinkFridge Inquiry" <${process.env.EMAIL_USER}>`,
+    to: process.env.EMAIL_TO,
+    subject: `New Inquiry from ${name}`,
+    text: `
+      Name: ${name}
+      Email: ${email}
+      Business/Organization: ${business}
+      Type of Location: ${location_type}
+      Message: ${message}
+    `,
+    html: `
+      <h3>New Inquiry from ${name}</h3>
+      <p><strong>Email:</strong> ${email}</p>
+      <p><strong>Business/Organization:</strong> ${business}</p>
+      <p><strong>Type of Location:</strong> ${location_type}</p>
+      <p><strong>Message:</strong> ${message}</p>
+    `,
+  });
+
+  return NextResponse.json({ message: 'Email sent successfully' }, { status: 200 });
+}
+
+// Type definition for the request body
+interface InquiryData {
+  name: string;
+  email: string;
+  business: string;
+  location_type: string;
+  message: string;
 }
