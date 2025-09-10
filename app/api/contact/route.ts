@@ -4,16 +4,14 @@ import nodemailer from 'nodemailer';
 export async function POST(request: Request) {
   const { name, email, business, location_type, message } = await request.json();
 
-  // Configure transporter (ensure env vars are set)
+  // Configure transporter using a service (e.g., Gmail)
   const transporter = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,
-    port: process.env.EMAIL_PORT,
-    secure: process.env.EMAIL_SECURE === 'true',
+    service: process.env.EMAIL_SERVICE || 'gmail', // Use env var or default to gmail
     auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
+      user: process.env.EMAIL_USER, // e.g., your-email@gmail.com
+      pass: process.env.EMAIL_PASS, // e.g., app-specific password
     },
-  });
+  } as nodemailer.TransportOptions); // Type assertion to satisfy TypeScript
 
   // Email to YOU (ThinkFridge team)
   await transporter.sendMail({
