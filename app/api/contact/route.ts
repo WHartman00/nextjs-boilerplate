@@ -11,16 +11,18 @@ export async function POST(req: NextRequest) {
     },
   });
   try {
-    // Email to YOU (ThinkFridge team)
-    await transporter.sendMail({
-      from: `"ThinkFridge Inquiry" <${process.env.EMAIL_USER}>`,
-      to: process.env.EMAIL_TO,
-      subject: `New Inquiry from ${name}`,
-      text: `
-        Name: ${name}
-        Email: ${email}
-        Message: ${message}
-      `,
+   // Email to YOU (ThinkFridge team)
+await transporter.sendMail({
+  from: `"ThinkFridge Inquiry" <${process.env.EMAIL_USER}>`,
+  to: process.env.EMAIL_TO,
+  subject: `New Inquiry from ${name}`,
+  text: `
+    Name: ${name}
+    Email: ${email}
+    Business/Organization: ${business}
+    Type of Location: ${location_type}
+    Message: ${message}
+  `,
     });
     // Auto-confirmation email to submitter
     await transporter.sendMail({
