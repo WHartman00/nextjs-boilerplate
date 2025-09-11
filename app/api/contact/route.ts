@@ -2,46 +2,50 @@ import { NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
 export async function POST(request: Request) {
-  const { name, email, business, location_type, message } = await request.json();
+  try {
+    const { name, email, organization, locationType, message } = await request.json();
 
-  // Configure transporter using a service (e.g., Gmail)
-  const transporter = nodemailer.createTransport({
-    service: process.env.EMAIL_SERVICE || 'gmail', // Use env var or default to gmail
-    auth: {
-      user: process.env.EMAIL_USER, // e.g., your-email@gmail.com
-      pass: process.env.EMAIL_PASS, // e.g., app-specific password
-    },
-  } as nodemailer.TransportOptions); // Type assertion to satisfy TypeScript
+    // Validate required fields
+    if (!name || !email || !message) {
+      return NextResponse.json({ success: false, error: 'Missing required fields' }, { status: 400 });
+    }
 
-  // Email to YOU (ThinkFridge team)
-  await transporter.sendMail({
-    from: `"ThinkFridge Inquiry" <${process.env.EMAIL_USER}>`,
-    to: process.env.EMAIL_TO,
-    subject: `New Inquiry from ${name}`,
-    text: `
-      Name: ${name}
-      Email: ${email}
-      Business/Organization: ${business}
-      Type of Location: ${location_type}
-      Message: ${message}
-    `,
-    html: `
-      <h3>New Inquiry from ${name}</h3>
-      <p><strong>Email:</strong> ${email}</p>
-      <p><strong>Business/Organization:</strong> ${business}</p>
-      <p><strong>Type of Location:</strong> ${location_type}</p>
-      <p><strong>Message:</strong> ${message}</p>
-    `,
-  });
+    // Create transporter
+    const transporter = nodemailer.createTransport({
+      host: process.env.EMAIL_HOST,
+      port: parseInt(process.env.EMAIL_PORT || '587'),
+      secure: process.env.EMAIL_SECURE === 'true', // Convert string to boolean
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
 
-  return NextResponse.json({ message: 'Email sent successfully' }, { status: 200 });
-}
+    // Verify transporter configuration
+    await transporter.verify();
+    console.log('Transporter configured successfully');
 
-// Type definition for the request body
-interface InquiryData {
-  name: string;
-  email: string;
-  business: string;
-  location_type: string;
-  message: string;
+    // Email content
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: process.env.EMAIL_TO,
+      subject: `New Partner Inquiry from ${name}`,
+      text: `
+        Name: ${name}
+        Email: ${email}
+        Business/Organization: ${organization || 'Not provided'}
+        Type of Location: ${locationType || 'Not provided'}
+        Message: ${message}
+      `,
+    };
+
+    // Send email
+    await transporter.sendMail(mailOptions);
+    console.log('Email sent successfully');
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error('Error processing contact form:', error);
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  }
 }
