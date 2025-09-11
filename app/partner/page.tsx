@@ -1,39 +1,41 @@
 'use client';
-
 import React, { useState } from 'react';
 
 export default function PartnerWithUs() {
   const [status, setStatus] = useState<'idle' | 'success' | 'error'>('idle');
-  const [isSubmitting, setIsSubmitting] = useState(false); // prevents double submission
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     if (isSubmitting) return;
     setIsSubmitting(true);
-
     const form = e.target as HTMLFormElement;
     const data = {
       name: form.fullName.value,
       email: form.email.value,
+      organization: form.organization.value,
+      locationType: form.locationType.value,
       message: form.message.value,
     };
-
-    const res = await fetch('/api/contact', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    });
-
-    const result = await res.json();
-    if (result.success) {
-      setStatus('success');
-      form.reset();
-      setTimeout(() => setStatus('idle'), 5000);
-    } else {
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      const result = await res.json();
+      if (res.ok && result.success) {
+        setStatus('success');
+        form.reset();
+        setTimeout(() => setStatus('idle'), 5000);
+      } else {
+        setStatus('error');
+        console.error('Server response:', result.error);
+      }
+    } catch (error) {
       setStatus('error');
+      console.error('Fetch error:', error);
     }
-
     setIsSubmitting(false);
   };
 
@@ -46,7 +48,6 @@ export default function PartnerWithUs() {
         <p className="text-lg md:text-xl text-center mb-10">
           Turn your space into a smart retail experience — and earn passive income with zero hassle.
         </p>
-
         {/* How It Works */}
         <section className="mb-12">
           <h2 className="text-2xl font-semibold mb-4">How It Works</h2>
@@ -56,7 +57,6 @@ export default function PartnerWithUs() {
             <li>ThinkFridge tracks every sale and restocks automatically.</li>
           </ul>
         </section>
-
         {/* Revenue Sharing */}
         <section className="mb-12">
           <h2 className="text-2xl font-semibold mb-4">Earn Without the Effort</h2>
@@ -71,7 +71,6 @@ export default function PartnerWithUs() {
             <li>Typical revenue share: <strong>10–15% of gross sales</strong></li>
           </ul>
         </section>
-
         {/* Ideal Locations */}
         <section className="mb-12">
           <h2 className="text-2xl font-semibold mb-4">Great Locations for ThinkFridge</h2>
@@ -83,7 +82,6 @@ export default function PartnerWithUs() {
             <li>Industrial parks and warehouses</li>
           </ul>
         </section>
-
         {/* Call to Action */}
         <p className="text-lg font-semibold text-center mt-10">
           Ready to unlock new revenue for your space?
@@ -91,23 +89,19 @@ export default function PartnerWithUs() {
         <p className="text-gray-600 text-center mb-10">
           Fill out the form and our team will be in touch within 48 hours.
         </p>
-
         {/* Inquiry Form */}
         <form onSubmit={handleSubmit} className="bg-gray-100 p-6 rounded-xl shadow-md space-y-4">
           <h2 className="text-2xl font-semibold">Partner Inquiry Form</h2>
-
           {status === 'success' && (
             <div className="bg-green-100 text-green-800 border border-green-300 px-4 py-3 rounded text-sm">
               ✅ Thank you! Your message has been sent.
             </div>
           )}
-
           {status === 'error' && (
             <div className="bg-red-100 text-red-800 border border-red-300 px-4 py-3 rounded text-sm">
-              ❌ Something went wrong. Please try again later.
+              ❌ Something went wrong. Please try again later. Check console for details.
             </div>
           )}
-
           <div className="grid md:grid-cols-2 gap-4">
             <input
               name="fullName"
@@ -130,21 +124,19 @@ export default function PartnerWithUs() {
               className="p-3 rounded border w-full"
             />
             <select name="locationType" className="p-3 rounded border w-full">
-              <option>Type of Location</option>
-              <option>Office</option>
-              <option>Gym</option>
-              <option>Campus</option>
-              <option>Retail</option>
-              <option>Other</option>
+              <option value="">Type of Location</option>
+              <option value="Office">Office</option>
+              <option value="Gym">Gym</option>
+              <option value="Campus">Campus</option>
+              <option value="Retail">Retail</option>
+              <option value="Other">Other</option>
             </select>
           </div>
-
           <textarea
             name="message"
             placeholder="Tell us about your space or ask a question..."
             className="w-full p-3 rounded border h-28"
           />
-
           <button
             type="submit"
             disabled={isSubmitting}
