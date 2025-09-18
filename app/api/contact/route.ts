@@ -11,9 +11,14 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, error: 'Missing required fields' }, { status: 400 });
     }
 
+    const emailTo = process.env.EMAIL_TO;
+    if (!emailTo) {
+      return NextResponse.json({ success: false, error: 'EMAIL_TO environment variable is not set' }, { status: 500 });
+    }
+
     const { data, error } = await resend.emails.send({
       from: 'no-reply@thinkfridge.co',
-      to: process.env.EMAIL_TO,
+      to: emailTo,
       subject: `New Partner Inquiry from ${name}`,
       text: `
         Name: ${name}
