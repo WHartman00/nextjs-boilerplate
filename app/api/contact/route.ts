@@ -6,17 +6,16 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 export async function POST(request: Request) {
   try {
     const { name, email, organization, locationType, message } = await request.json();
-
     if (!name || !email || !message) {
       return NextResponse.json({ success: false, error: 'Missing required fields' }, { status: 400 });
     }
-
     const emailTo = process.env.EMAIL_TO;
     if (!emailTo) {
       return NextResponse.json({ success: false, error: 'EMAIL_TO environment variable is not set' }, { status: 500 });
     }
 
-    const { data, error } = await resend.emails.send({
+    // Send notification to admin
+    const { data: dataToAdmin, error: errorToAdmin } = await resend.emails.send({
       from: 'no-reply@thinkfridge.co',
       to: emailTo,
       subject: `New Partner Inquiry from ${name}`,
@@ -29,12 +28,33 @@ export async function POST(request: Request) {
       `,
     });
 
-    if (error) {
-      console.error('Resend error:', error);
-      return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    // Send thank-you to sender
+    const { data: dataToSender, error: errorToSender } = await resend.emails.send({
+      from: 'no-reply@thinkfridge.co',
+      to: email,
+      subject: `Thank You for Your Inquiry, ${name}!`,
+      text: `
+        Hi ${name},
+
+        Thank you for reaching out to ThinkFridge! We’ve received your inquiry and will get back to you soon.
+
+        Details:
+        - Email: ${email}
+        - Organization: ${organization || 'Not provided'}
+        - Location Type: ${locationType || 'Not provided'}
+        - Message: ${message}
+
+        Best,
+        The ThinkFridge Team
+      `,
+    });
+
+    if (errorToAdmin || errorToSender) {
+      console.error('Resend error to admin:', errorToAdmin, 'to sender:', errorToSender);
+      return NextResponse.json({ success: false, error: errorToAdmin?.message || errorToSender?.message }, { status: 500 });
     }
 
-    console.log('Email sent successfully:', data);
+    console.log('Emails sent successfully:', { dataToAdmin, dataToSender });
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error('Error processing contact form:', error);
