@@ -36,7 +36,7 @@ export async function POST(request: Request) {
       text: `
         Hi ${name},
 
-        Thank you for reaching out to ThinkFridge! We’ve received your inquiry and will get back to you soon.
+        Thank you for your interest in partnering with ThinkFridge! We’re excited to explore how we can collaborate to drive innovation and growth together. We’ve received your inquiry and will review it promptly.
 
         Details:
         - Email: ${email}
@@ -44,8 +44,10 @@ export async function POST(request: Request) {
         - Location Type: ${locationType || 'Not provided'}
         - Message: ${message}
 
+        A member of our team will reach out soon to discuss next steps. In the meantime, feel free to contact us at no-reply@thinkfridge.co.
+
         Best,
-        The ThinkFridge Team
+        The ThinkFridge Partnership Team
       `,
     });
 
